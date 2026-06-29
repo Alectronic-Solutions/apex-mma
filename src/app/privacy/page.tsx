@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
@@ -109,12 +110,12 @@ export default function PrivacyPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="border-b border-border px-6 md:px-12 lg:px-24 py-4">
-        <a
+        <Link
           href="/"
           className="font-mono text-xs text-muted uppercase tracking-widest hover:text-white transition-colors duration-200"
         >
           Back to Apex MMA
-        </a>
+        </Link>
       </div>
 
       <section className="py-24 px-6 md:px-12 lg:px-24">

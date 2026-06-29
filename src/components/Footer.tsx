@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import ApexLogo from './ApexLogo';
 
 const trainLinks = [
@@ -139,12 +140,12 @@ export default function Footer() {
 
             {/* Right: policy links + back to top */}
             <div className="flex items-center justify-center md:justify-end gap-6">
-              <a href="/privacy" className="font-mono text-xs text-muted hover:text-white transition-colors duration-200">
+              <Link href="/privacy" className="font-mono text-xs text-muted hover:text-white transition-colors duration-200">
                 Privacy Policy
-              </a>
-              <a href="/terms" className="font-mono text-xs text-muted hover:text-white transition-colors duration-200">
+              </Link>
+              <Link href="/terms" className="font-mono text-xs text-muted hover:text-white transition-colors duration-200">
                 Terms of Use
-              </a>
+              </Link>
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="font-mono text-xs text-muted hover:text-white transition-colors duration-200 cursor-pointer ml-2"
