@@ -1,5 +1,8 @@
+'use client';
+
 import type { MembershipPlan } from '@/data/gym';
 import TrialTrigger from './TrialTrigger';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 interface MembershipProps {
   plans: MembershipPlan[];
@@ -11,19 +14,29 @@ const tierAccent: Record<string, string> = {
   unlimited: 'border-t-2 border-t-[#EF4444]',
 };
 
+const reveal = (visible: boolean, delay: number) => ({
+  opacity: visible ? 1 : 0,
+  transform: visible ? 'none' : 'translateY(24px)',
+  transition: `opacity 0.55s ease ${delay}ms, transform 0.55s ease ${delay}ms`,
+});
+
 export default function Membership({ plans }: MembershipProps) {
+  const { ref, visible } = useScrollReveal();
+
   return (
-    <div className="py-24 px-6 md:px-12 lg:px-24">
+    <div ref={ref} className="py-24 px-6 md:px-12 lg:px-24">
       <div className="max-w-screen-2xl mx-auto">
-        <p className="font-mono text-xs text-[#A1A1AA] uppercase tracking-widest mb-2">Membership</p>
-        <h2 className="font-display font-black uppercase text-white mb-12"
-          style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}
-        >
-          Join the Gym
-        </h2>
+        <div style={reveal(visible, 0)}>
+          <p className="font-mono text-xs text-muted uppercase tracking-widest mb-2">Membership</p>
+          <h2 className="font-display font-black uppercase text-white mb-12"
+            style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}
+          >
+            Join the Gym
+          </h2>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#27272A]">
-          {plans.map((plan) => (
+          {plans.map((plan, i) => (
             <div
               key={plan.tier}
               className={[
@@ -33,6 +46,7 @@ export default function Membership({ plans }: MembershipProps) {
                   ? 'bg-[#1C0A0A] ring-1 ring-accent'
                   : 'bg-surface hover:bg-[#1F1F23]',
               ].join(' ')}
+              style={reveal(visible, i * 120)}
             >
               {plan.highlighted ? (
                 <p className="font-mono text-xs text-[#EF4444] uppercase tracking-widest mb-4">

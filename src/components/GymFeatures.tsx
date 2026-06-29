@@ -1,4 +1,7 @@
+'use client';
+
 import type { GymFeature } from '@/data/gym';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 interface GymFeaturesProps {
   features: GymFeature[];
@@ -26,31 +29,40 @@ function CheckIcon() {
   );
 }
 
+const reveal = (visible: boolean, delay: number) => ({
+  opacity: visible ? 1 : 0,
+  transform: visible ? 'none' : 'translateY(24px)',
+  transition: `opacity 0.55s ease ${delay}ms, transform 0.55s ease ${delay}ms`,
+});
+
 export default function GymFeatures({ features }: GymFeaturesProps) {
+  const { ref, visible } = useScrollReveal();
+
   return (
-    <div className="py-24 px-6 md:px-12 lg:px-24">
+    <div ref={ref} className="py-24 px-6 md:px-12 lg:px-24">
       <div className="max-w-screen-2xl mx-auto">
 
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-4">
-          <span className="font-mono text-xs text-muted uppercase tracking-widest">The Facility</span>
-          <span className="flex-1 h-px bg-accent" />
+        <div style={reveal(visible, 0)}>
+          <div className="flex items-center gap-4 mb-4">
+            <span className="font-mono text-xs text-muted uppercase tracking-widest">The Facility</span>
+            <span className="flex-1 h-px bg-accent" />
+          </div>
+          <h2
+            className="font-display font-black uppercase text-white mb-16 leading-none"
+            style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}
+          >
+            The Mat Is Clean
+          </h2>
         </div>
-        <h2
-          className="font-display font-black uppercase text-white mb-16 leading-none"
-          style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}
-        >
-          The Mat Is Clean
-        </h2>
 
-        {/* Feature grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 -m-px">
-          {features.map((feature) => (
+          {features.map((feature, i) => (
             <div
               key={feature.label}
               className="group border border-border p-8 flex gap-5 items-start
                          transition-colors duration-150
                          hover:bg-[#1C1C1F] hover:border-l-2 hover:border-l-accent"
+              style={reveal(visible, i * 80)}
             >
               <CheckIcon />
               <div>
